@@ -11,7 +11,7 @@
 ## ESTABLISH DEBIAN CONTAINER
 ##
 
-FROM debian:stretch-slim
+FROM debian:buster-slim
 RUN mkdir /work
 RUN apt-get update && apt-get install -y \
   vim git-core curl \
@@ -29,8 +29,8 @@ RUN cd /work \
 # run emscripten self installation
 RUN cd /work/emsdk \
   && git pull \
-  && ./emsdk install 1.38.48 \
-  && ./emsdk activate 1.38.48
+  && ./emsdk install sdk-1.39.6-64bit \
+  && ./emsdk activate sdk-1.39.6-64bit
 
 # verify emscripten
 RUN ["/bin/bash", "-c", "cd /work/emsdk && source ./emsdk_env.sh && emcc --version"]
@@ -40,8 +40,7 @@ RUN ["/bin/bash", "-c", "cd /work/emsdk && source ./emsdk_env.sh && emcc --versi
 ##
 
 RUN mkdir /work/libwebp && cd /work/libwebp \
-  && git clone --branch master https://github.com/webmproject/libwebp.git . \
-  && git checkout 1326988d1091202be426aba07d0061b6759862ff
+  && git clone --branch v1.1.0 https://github.com/webmproject/libwebp.git .
 
 ##
 ## COPY LOCAL FILES INTO CONTAINER
@@ -63,6 +62,6 @@ RUN ["/bin/bash", "-c", "cd /work/emsdk \
   && cd /work/libwebp/webp_js \
   && cmake -DWEBP_BUILD_WEBP_JS=ON \
     -DEMSCRIPTEN_GENERATE_BITCODE_STATIC_LIBRARIES=1 \
-    -DCMAKE_TOOLCHAIN_FILE=/work/emsdk/fastcomp/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+    -DCMAKE_TOOLCHAIN_FILE=/work/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
     ../ \
   && make"]

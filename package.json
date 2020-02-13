@@ -13,17 +13,17 @@
 		"libwebp/dist/webp.cjs.js"
 	],
 	"scripts": {
-		"start": "serve",
 		"prepare": "run-s build test",
-		"build": "run-s clean barrel compile && run-p bundle polyfills",
+		"build": "run-s clean barrel compile && run-p polyfills",
 		"clean": "rimraf dist dist-cjs && mkdirp dist dist-cjs",
 		"barrel": "barrelsby --delete --directory source --exclude 'bundle.ts$'",
 		"compile": "run-p compile-esm compile-cjs",
 		"compile-esm": "tsc",
 		"compile-cjs": "tsc --outDir dist-cjs --target es5 --module commonjs && replace 'libwebp\\/dist\\/webp\\.js' 'libwebp/dist/webp.cjs.js' dist-cjs/webp-machine.js",
-		"bundle": "browserify dist-cjs/webp-hero.bundle.js -p tinyify -o dist-cjs/webp-hero.bundle.js",
+		"Xbundle": "browserify dist-cjs/webp-hero.bundle.js -p tinyify -o dist-cjs/webp-hero.bundle.js",
 		"polyfills": "concat-cli -f node_modules/es6-promise/dist/es6-promise.auto.min.js -f node_modules/mdn-polyfills/Array.from.js -o dist-cjs/polyfills.js",
-		"test": "exit 0"
+		"test": "exit 0",
+		"start": "serve"
 	},
 	"repository": {
 		"type": "git",

@@ -3,7 +3,7 @@
 mkdir /dist/google
 
 # copy dist artifacts
-cp -r /work/libwebp/webp_js/*.{js,html,webp} /dist/google
+cp /work/libwebp/webp_js/* /dist/google
 
 # wrap up es module
 cat \

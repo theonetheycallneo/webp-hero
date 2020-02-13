@@ -29,8 +29,8 @@ RUN cd /work \
 # run emscripten self installation
 RUN cd /work/emsdk \
   && git pull \
-  && ./emsdk install sdk-1.39.6-64bit \
-  && ./emsdk activate sdk-1.39.6-64bit
+  && ./emsdk install 1.39.7-fastcomp \
+  && ./emsdk activate 1.39.7-fastcomp
 
 # verify emscripten
 RUN ["/bin/bash", "-c", "cd /work/emsdk && source ./emsdk_env.sh && emcc --version"]
@@ -52,9 +52,9 @@ ADD . /work
 ## RUN LIBWEBP EMSCRIPTEN BUILD
 ##
 
-# replace libwebp emscripten cmake instructions
-RUN rm -rf /work/libwebp/CMakeLists.txt \
-  && cp /work/source/CMakeLists.txt /work/libwebp
+# # replace libwebp emscripten cmake instructions
+# RUN rm -rf /work/libwebp/CMakeLists.txt \
+#   && cp /work/source/CMakeLists.txt /work/libwebp
 
 # run the webp js build
 RUN ["/bin/bash", "-c", "cd /work/emsdk \
@@ -62,6 +62,6 @@ RUN ["/bin/bash", "-c", "cd /work/emsdk \
   && cd /work/libwebp/webp_js \
   && cmake -DWEBP_BUILD_WEBP_JS=ON \
     -DEMSCRIPTEN_GENERATE_BITCODE_STATIC_LIBRARIES=1 \
-    -DCMAKE_TOOLCHAIN_FILE=/work/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+    -DCMAKE_TOOLCHAIN_FILE=$EMSDK/fastcomp/emscripten/cmake/Modules/Platform/Emscripten.cmake \
     ../ \
   && make"]

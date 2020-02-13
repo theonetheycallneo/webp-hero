@@ -1,2 +1,9 @@
 
 function Webp() {
+	window.Module = {
+		locateFile: url => {
+			console.log("LOCATE", url)
+			debugger
+			return `./path/${url}`
+		}
+	}

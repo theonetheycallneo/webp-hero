@@ -17,7 +17,7 @@
 //Emscripten ar
 CMAKE_AR:FILEPATH=/work/emsdk/fastcomp/emscripten/emar
 
-//STRING
+//Build type: Release, Debug, MinSizeRel or RelWithDebInfo
 CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.

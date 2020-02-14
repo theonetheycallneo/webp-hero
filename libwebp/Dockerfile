@@ -52,9 +52,9 @@ ADD . /work
 ## RUN LIBWEBP EMSCRIPTEN BUILD
 ##
 
-# # replace libwebp emscripten cmake instructions
-# RUN rm -rf /work/libwebp/CMakeLists.txt \
-#   && cp /work/source/CMakeLists.txt /work/libwebp
+# replace libwebp emscripten cmake instructions
+RUN rm -rf /work/libwebp/CMakeLists.txt \
+  && cp /work/source/CMakeLists.txt /work/libwebp
 
 # run the webp js build
 RUN ["/bin/bash", "-c", "cd /work/emsdk \

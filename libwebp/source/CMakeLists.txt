@@ -559,6 +559,9 @@ if(WEBP_BUILD_WEBP_JS)
       -s EXPORTED_FUNCTIONS='[\"_WebpToSDL\"]' \
       -s INVOKE_RUN=0 \
       -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"cwrap\"]' \
+      -s MODULARIZE=1 \
+      -s EXPORT_ES6=1 \
+      -s EXPORT_NAME='Webp' \
     "
   )
   set_target_properties(webp_js PROPERTIES OUTPUT_NAME webp)
@@ -575,6 +578,9 @@ if(WEBP_BUILD_WEBP_JS)
       -s EXPORTED_FUNCTIONS='[\"_WebpToSDL\"]' \
       -s INVOKE_RUN=0 \
       -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"cwrap\"]' \
+      -s MODULARIZE=1 \
+      -s EXPORT_ES6=1 \
+      -s EXPORT_NAME='Webp' \
     "
   )
   target_compile_definitions(webp_wasm PUBLIC EMSCRIPTEN WEBP_HAVE_SDL)

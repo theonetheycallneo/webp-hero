@@ -1,8 +1,8 @@
-
 import {Webp} from "../libwebp/dist/webp.js"
 import {loadBinaryData} from "./load-binary-data.js"
 import {detectWebpSupport} from "./detect-webp-support.js"
 import {WebpMachineOptions, PolyfillDocumentOptions, DetectWebpImage} from "./interfaces.js"
+import {convertDataURIToBinary, isBase64Url} from "./convert-binary-data.js"
 
 const relax = () => new Promise(resolve => requestAnimationFrame(resolve))
 
@@ -47,8 +47,7 @@ export class WebpMachine {
 			this.webp.webpToSdl(webpData, webpData.length)
 			this.busy = false
 			return canvas.toDataURL()
-		}
-		catch (error) {
+		} catch (error) {
 			this.busy = false
 			error.name = WebpMachineError.name
 			error.message = `failed to decode webp image: ${error.message}`
@@ -68,11 +67,12 @@ export class WebpMachine {
 				return
 			}
 			try {
-				const webpData = await loadBinaryData(src)
+				const webpData = isBase64Url(src)
+					? convertDataURIToBinary(src)
+					: await loadBinaryData(src)
 				const pngData = await this.decode(webpData)
 				image.src = this.cache[src] = pngData
-			}
-			catch (error) {
+			} catch (error) {
 				error.name = WebpMachineError.name
 				error.message = `failed to polyfill image "${src}": ${error.message}`
 				throw error
@@ -90,8 +90,7 @@ export class WebpMachine {
 		for (const image of Array.from(document.querySelectorAll("img"))) {
 			try {
 				await this.polyfillImage(image)
-			}
-			catch (error) {
+			} catch (error) {
 				error.name = WebpMachineError.name
 				error.message = `webp image polyfill failed for url "${image.src}": ${error}`
 				throw error
